@@ -1,6 +1,6 @@
 {
   "name": "geojsonjs",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Build and validate GeoJSON",
   "main": "src/index.js",
   "scripts": {
@@ -9,7 +9,7 @@
     "ci": "jest --watch",
     "test": "jest --coverage",
     "lint": "eslint --ext .js,.ts .",
-    "lint:sarif": "set SARIF_ESLINT_EMBED=true && npm run lint --format @microsoft/eslint-formatter-sarif --output-file eslint-results.sarif"
+    "lint:sarif": "set SARIF_ESLINT_EMBED=true && npm run lint -- --format @microsoft/eslint-formatter-sarif --output-file eslint-results.sarif"
   },
   "keywords": [
     "geojson",
@@ -17,7 +17,7 @@
     "geojson-typescript",
     "geojson-javascript"
   ],
-  "author": "",
+  "author": "Pranciškus Ambrazas",
   "devDependencies": {
     "@microsoft/eslint-formatter-sarif": "^3.0.0",
     "@types/jest": "^27.4.0",
