@@ -7,7 +7,7 @@ permissions: read-all
 
 jobs:
   generate-library:
-    name: Generate API client library
+    name: Generate client library
     runs-on: ubuntu-latest
     permissions: read-all
     steps:
@@ -41,7 +41,7 @@ jobs:
           path: dist
 
   publish-library:
-    name: Publish API client library
+    name: Publish client library
     runs-on: ubuntu-latest
     needs: [ generate-library ]
     permissions:
