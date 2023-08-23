@@ -2,7 +2,7 @@
   "name": "geojsonjs",
   "version": "0.0.1",
   "description": "Build and validate GeoJSON",
-  "main": "src/index.ts",
+  "main": "src/index.js",
   "scripts": {
     "build": "tsc --build tsconfig.json",
     "dev": "ts-node src/index.ts",
