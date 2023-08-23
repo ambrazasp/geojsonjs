@@ -7,6 +7,7 @@
 | `validateFeature`           | `feature: Feature`                            | [More info](#validatefeature)           |
 | `validateFeatures`          | `features: Feature[]`                         | [More info](#validatefeatures)          |
 | `validateFeatureCollection` | `collection: FeatureCollection`               | [More info](#validatefeaturecollection) |
+| `validateGeometryTypes`     | `types: string \| string [], geom: AllTypes`  | [More info](#validategeometrytypes)     |
 
 Each validation returns
 [ValidationResult](#validationresult) response
@@ -66,6 +67,25 @@ Example:
 
 ```js
 const valid = validateFeatureCollection({
+  type: 'FeatureCollection',
+  features: [
+    {
+      type: 'Feature',
+      geometry: {
+        type: 'Point',
+        coordinates: [11, 22],
+      },
+    },
+  ],
+});
+```
+
+## validateGeometryTypes
+
+Example:
+
+```js
+const valid = validateGeometryTypes(['Point'], {
   type: 'FeatureCollection',
   features: [
     {

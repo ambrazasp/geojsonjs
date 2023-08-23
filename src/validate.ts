@@ -1,5 +1,6 @@
 import { isNumber, isObject } from 'lodash';
 import {
+  AllTypes,
   CoordinatesTypes,
   Feature,
   FeatureCollection,
@@ -9,6 +10,7 @@ import {
   ValidationError,
   ValidationResult,
 } from './types';
+import { getGeometries } from './helpers';
 
 function transformResponse(
   error?: string,
@@ -132,4 +134,31 @@ export function validateFeatureCollection(
   }
 
   return validateFeatures(geom.features);
+}
+
+export function validateGeometryTypes(
+  types: string | string[],
+  geom: AllTypes
+) {
+  if (!Array.isArray(types)) types = [types];
+
+  const everyTypeValid = types.every((t) =>
+    Object.values(GeometryType).includes(t)
+  );
+
+  if (!everyTypeValid) {
+    throw new Error(`Passed types are not valid - ["${types.join("', '")}"]`);
+  }
+
+  const invalidTypes = getGeometries(geom)
+    .map((item) => item.type)
+    .filter((t) => !types.includes(t));
+
+  if (!invalidTypes?.length) {
+    return transformResponse(ValidationError.INVALID_TYPE, {
+      types: invalidTypes,
+    });
+  }
+
+  return transformResponse();
 }
