@@ -159,3 +159,11 @@ const valid = getFeatureCollection({
   },
 });
 ```
+
+## Validation
+
+Documentation about validation can be found [here](/docs/validation.md)
+
+## Types
+
+Documentation about types can be found [here](/docs/types.md)
