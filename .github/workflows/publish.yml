@@ -28,10 +28,10 @@ jobs:
 
       - name: Copy md files
         run: |
-          cp ./README.md ./dist/README.md && |
-          cp LICENCE ./dist/LICENCE && |
-          cp SECURITY.md ./dist/SECURITY.md && |
-          cp CODE_OF_CONDUCT.md ./dist/CODE_OF_CONDUCT.md && |
+          cp ./README.md ./dist/README.md &&
+          cp LICENCE ./dist/LICENCE &&
+          cp SECURITY.md ./dist/SECURITY.md &&
+          cp CODE_OF_CONDUCT.md ./dist/CODE_OF_CONDUCT.md &&
           cp CONTRIBUTING.md ./dist/CONTRIBUTING.md
 
       - name: Archive artifacts
