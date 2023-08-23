@@ -1,9 +1,14 @@
 {
   "name": "geojsonjs",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Build and validate GeoJSON",
-  "main": "src/index.js",
-  "types": "src/index.d.ts",
+  "main": "./src/index.js",
+  "typings": "./src/index.d.ts",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ambrazasp/geojsonjs.git"
+  },
   "scripts": {
     "build": "tsc --build tsconfig.json",
     "dev": "ts-node src/index.ts",
