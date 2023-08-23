@@ -9,7 +9,7 @@
 | `validateFeatureCollection` | `collection: FeatureCollection`               | [More info](#validatefeaturecollection) |
 
 Each validation returns
-[ValidationResult](#validation-result) response
+[ValidationResult](#validationresult) response
 
 ## validateCoordinates
 
@@ -79,7 +79,7 @@ const valid = validateFeatureCollection({
 });
 ```
 
-## `ValidationResult`<a id='validation-result'></a>
+## ValidationResult
 
 Type, that consists of:
 
