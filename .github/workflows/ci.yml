@@ -25,7 +25,7 @@ jobs:
           cache: npm
 
       - name: Install dependencies
-        run: npm ci --silent
+        run: npm i --silent
 
       - name: Run ESLint
         run: npm run lint:sarif
