@@ -90,12 +90,3 @@ Type, that consists of:
   data?: GenericObject | null // only for error
 }
 ```
-
-## Contributing
-
-Contributions are welcome! If you find any issues or have suggestions for improvements, please open an issue or submit a
-pull request. For more information, see the [contribution guidelines](./CONTRIBUTING.md).
-
-## License
-
-This project is licensed under the [MIT License](./LICENSE).

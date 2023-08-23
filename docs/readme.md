@@ -162,8 +162,8 @@ const valid = getFeatureCollection({
 
 ## Validation
 
-Documentation about validation can be found [here](/docs/validation.md)
+Documentation about validation can be found [here](/docs/validation/readme.md)
 
 ## Types
 
-Documentation about types can be found [here](/docs/types.md)
+Documentation about types can be found [here](/docs/types/readme.md)
