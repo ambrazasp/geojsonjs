@@ -41,13 +41,14 @@ const geom = {
   ],
 };
 
-import { toFeatureCollection } from 'geojsonjs';
+import { toFeatureCollection, validate } from 'geojsonjs';
 const featureCollection = toFeatureCollection(geom);
 const result = validate(featureCollection);
 
 // TypeScript
 import {
   toFeatureCollection,
+  validate,
   FeatureCollection,
   ValidationResult,
 } from 'geojsonjs';
@@ -98,7 +99,7 @@ const featureCollection2: FeatureCollection = parse([
 
 Finds and returns all geometries from data.
 
-Supports [all geometry types](#supported-types).
+Supports [all geometry types](#types).
 
 Returns [array of geometries](#geometries-array)
 
@@ -117,7 +118,7 @@ const geometries: Geometry[] = getGeometries(geom);
 
 Finds and returns all features from data.
 
-Supports [all geometry types](#supported-types).
+Supports [all geometry types](#types).
 
 Returns [array of features](#features-array)
 
@@ -136,7 +137,7 @@ const features: Feature[] = getFeatures(geom);
 
 Finds and returns feature collection from data.
 
-Supports [all geometry types](#supported-types).
+Supports [all geometry types](#types).
 
 Returns [feature collection](#feature-collection)
 
@@ -158,12 +159,28 @@ Each validation returns
 
 | Name                        | Params                                        |                                         |
 | --------------------------- | --------------------------------------------- | --------------------------------------- |
+| `validate`                  | `geom: AllTypes`                              | [More info](#validate)                  |
 | `validateCoordinates`       | `type: string, coordinates: CoordinatesTypes` | [More info](#validatecoordinates)       |
 | `validateGeometry`          | `geometry: Geometry`                          | [More info](#validategeometry)          |
 | `validateFeature`           | `feature: Feature`                            | [More info](#validatefeature)           |
 | `validateFeatures`          | `features: Feature[]`                         | [More info](#validatefeatures)          |
 | `validateFeatureCollection` | `collection: FeatureCollection`               | [More info](#validatefeaturecollection) |
 | `validateGeometryTypes`     | `types: string \| string [], geom: AllTypes`  | [More info](#validategeometrytypes)     |
+
+### validate
+
+Supports [all geometry types](#types).
+
+**Example:**
+
+```js
+import { validate } from 'geojsonjs';
+const result = validate(geom);
+
+// TypeScript
+import { validate, ValidationResult } from 'geojsonjs';
+const result: ValidationResult = validate(geom);
+```
 
 ### validateCoordinates
 

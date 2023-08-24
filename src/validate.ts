@@ -10,7 +10,7 @@ import {
   ValidationError,
   ValidationResult,
 } from './types';
-import { getGeometries } from './functions';
+import { getFeatureCollection, getGeometries } from './functions';
 
 function transformResponse(
   error?: string,
@@ -25,6 +25,11 @@ function transformResponse(
   }
 
   return { valid: true };
+}
+
+export function validate(geom: AllTypes) {
+  const featureCollection: FeatureCollection = getFeatureCollection(geom);
+  return validateFeatureCollection(featureCollection);
 }
 
 export function validateCoordinatesByDepth(
