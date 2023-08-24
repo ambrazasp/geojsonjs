@@ -9,6 +9,10 @@
 - [About the Project](#about-the-project)
 - [Getting Started](#getting-started)
 - [Usage](#usage)
+- [Documentation](#documentation)
+  - [Global functions](#global-functions)
+  - [Validation](#validation)
+  - [Types](#types)
 - [Contributing](#contributing)
 - [License](#license)
 
