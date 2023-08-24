@@ -1,4 +1,4 @@
-import { isNumber, isObject } from 'lodash';
+import { isEqual, isNumber, isObject } from 'lodash';
 import {
   AllTypes,
   CoordinatesTypes,
@@ -35,14 +35,42 @@ export function validate(geom: AllTypes) {
 export function validateCoordinatesByDepth(
   coordinates: any[],
   depth: number = 0
-): boolean {
+): ValidationResult {
   if (depth === 0) {
-    return Array.isArray(coordinates) && coordinates.every((c) => isNumber(c));
+    if (!Array.isArray(coordinates) || coordinates.length !== 2) {
+      return transformResponse(ValidationError.INVALID_COORDINATES, {
+        coordinates,
+      });
+    }
+
+    const everyItemIsNumber = coordinates.every((c) => isNumber(c));
+
+    if (!everyItemIsNumber) {
+      return transformResponse(ValidationError.INVALID_COORDINATES, {
+        coordinates,
+      });
+    }
+
+    return transformResponse();
   }
 
-  if (!Array.isArray(coordinates)) return false;
+  if (!Array.isArray(coordinates)) {
+    return transformResponse(ValidationError.INVALID_COORDINATES, {
+      coordinates,
+    });
+  }
 
-  return coordinates.every((c) => validateCoordinatesByDepth(c, depth - 1));
+  const invalidCoordinates = coordinates
+    .map((c) => validateCoordinatesByDepth(c, depth - 1))
+    .filter((i) => !i.valid);
+
+  if (invalidCoordinates?.length) {
+    return transformResponse(ValidationError.INVALID_COORDINATES, {
+      coordinates: invalidCoordinates,
+    });
+  }
+
+  return transformResponse();
 }
 
 export function validateCoordinates(
@@ -63,28 +91,61 @@ export function validateCoordinates(
     });
   }
 
-  let valid = false;
-  if ([GeometryType.POINT].includes(type)) {
-    valid = validateCoordinatesByDepth(coordinates, 0);
-  } else if (
-    [GeometryType.MULTI_POINT, GeometryType.LINE_STRING].includes(type)
-  ) {
-    valid = validateCoordinatesByDepth(coordinates, 1);
-  } else if (
-    [GeometryType.MULTI_LINE_STRING, GeometryType.POLYGON].includes(type)
-  ) {
-    valid = validateCoordinatesByDepth(coordinates, 2);
-  } else if ([GeometryType.MULTI_POLYGON].includes(type)) {
-    valid = validateCoordinatesByDepth(coordinates, 3);
-  }
+  function handleMulti(type: string) {
+    if (!coordinates?.length) {
+      return transformResponse(ValidationError.INVALID_COORDINATES, {
+        coordinates,
+      });
+    }
 
-  if (!valid) {
+    const invalidCoordinates = coordinates
+      .map((c) => validateCoordinates(type, c as any))
+      .filter((i) => !i.valid);
+
+    if (!invalidCoordinates?.length) return transformResponse();
+
     return transformResponse(ValidationError.INVALID_COORDINATES, {
-      coordinates,
+      coordinates: invalidCoordinates,
     });
   }
 
-  return transformResponse();
+  if (type === GeometryType.POINT) {
+    return validateCoordinatesByDepth(coordinates, 0);
+  } else if (type === GeometryType.LINE_STRING) {
+    // line should have at least 2 points
+    if (coordinates?.length < 2) {
+      return transformResponse(ValidationError.INVALID_COORDINATES, {
+        coordinates,
+      });
+    }
+    return validateCoordinatesByDepth(coordinates, 1);
+  } else if (type === GeometryType.POLYGON) {
+    // polygon should have at least 3 points
+    if (coordinates?.length < 3) {
+      return transformResponse(ValidationError.INVALID_COORDINATES, {
+        coordinates,
+      });
+    }
+    const start = coordinates[0];
+    const end = coordinates[coordinates.length - 1];
+    if (!isEqual(start, end)) {
+      return transformResponse(ValidationError.INVALID_COORDINATES, {
+        coordinates,
+      });
+    }
+
+    return validateCoordinatesByDepth(coordinates, 2);
+  } else if (type === GeometryType.MULTI_POINT) {
+    return handleMulti(GeometryType.POINT);
+  } else if (type === GeometryType.MULTI_LINE_STRING) {
+    return handleMulti(GeometryType.LINE_STRING);
+  } else if (type === GeometryType.MULTI_POLYGON) {
+    return handleMulti(GeometryType.POLYGON);
+  }
+
+  return transformResponse(ValidationError.INVALID_COORDINATES, {
+    coordinates,
+  });
 }
 
 export function validateGeometry(geom: Geometry): ValidationResult {
