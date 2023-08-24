@@ -18,7 +18,6 @@ export type CoordinatesTypes =
 export type Geometry = {
   type: string;
   coordinates: CoordinatesTypes;
-  properties?: GenericObject | null;
 };
 
 export type FeatureCollection = {
@@ -28,12 +27,12 @@ export type FeatureCollection = {
 
 export type Feature = {
   type: 'Feature';
-  properties?: any;
   geometry: Geometry;
+  properties?: GenericObject;
 };
 
-export const FEATURE_COLLECTION_TYPE = 'FeatureCollection'
-export const FEATURE_TYPE = 'Feature'
+export const FEATURE_COLLECTION_TYPE = 'FeatureCollection';
+export const FEATURE_TYPE = 'Feature';
 
 export const ValidationError = {
   EMTPY: 'EMTPY',
@@ -60,7 +59,8 @@ export type AllTypes =
   | Geometry[]
   | Feature
   | Feature[]
-  | FeatureCollection;
+  | FeatureCollection
+  | FeatureCollection[];
 
 export type ValidationResult = {
   valid: boolean;

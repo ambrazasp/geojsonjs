@@ -10,7 +10,7 @@ import {
   ValidationError,
   ValidationResult,
 } from './types';
-import { getGeometries } from './helpers';
+import { getGeometries } from './functions';
 
 function transformResponse(
   error?: string,
