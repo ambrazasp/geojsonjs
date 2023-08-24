@@ -45,18 +45,18 @@ const geom = {
   ],
 };
 
-import { toFeatureCollection, validate } from 'geojsonjs';
-const featureCollection = toFeatureCollection(geom);
+import { getFeatureCollection, validate } from 'geojsonjs';
+const featureCollection = getFeatureCollection(geom);
 const result = validate(featureCollection);
 
 // TypeScript
 import {
-  toFeatureCollection,
+  getFeatureCollection,
   validate,
   FeatureCollection,
   ValidationResult,
 } from 'geojsonjs';
-const featureCollection: FeatureCollection = toFeatureCollection(geom);
+const featureCollection: FeatureCollection = getFeatureCollection(geom);
 const result: ValidationResult = validate(featureCollection);
 ```
 
