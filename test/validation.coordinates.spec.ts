@@ -73,6 +73,21 @@ describe('validations for coordinates', () => {
     expect(result.valid).toBeFalsy();
   });
 
+  it('validates coordinates (invalid type)', () => {
+    const result: ValidationResult = validateCoordinates(
+      'anything',
+      coordinatesValid
+    );
+    expect(result.valid).toBeFalsy();
+  });
+  it('validates coordinates (invalid - not array)', () => {
+    const result: ValidationResult = validateCoordinates(
+      GeometryType.LINE_STRING,
+      'hey' as any
+    );
+    expect(result.valid).toBeFalsy();
+  });
+
   describe('validations for Point', () => {
     const coordinatesValid = [11, 22];
     it('validates valid coordinates', () => {
@@ -231,7 +246,7 @@ describe('validations for coordinates', () => {
 
     it("validates coordinates (invalid - doesn't close)", () => {
       const result: ValidationResult = validateCoordinates(
-        GeometryType.MULTI_POLYGON,
+        GeometryType.POLYGON,
         coordinatesInvalid
       );
       expect(result.valid).toBeFalsy();

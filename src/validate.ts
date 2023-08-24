@@ -92,12 +92,6 @@ export function validateCoordinates(
   }
 
   function handleMulti(type: string) {
-    if (!coordinates?.length) {
-      return transformResponse(ValidationError.INVALID_COORDINATES, {
-        coordinates,
-      });
-    }
-
     const invalidCoordinates = coordinates
       .map((c) => validateCoordinates(type, c as any))
       .filter((i) => !i.valid);
@@ -142,13 +136,13 @@ export function validateCoordinates(
   } else if (type === GeometryType.MULTI_POLYGON) {
     return handleMulti(GeometryType.POLYGON);
   }
-
-  return transformResponse(ValidationError.INVALID_COORDINATES, {
-    coordinates,
-  });
 }
 
 export function validateGeometry(geom: Geometry): ValidationResult {
+  if (!geom) {
+    return transformResponse(ValidationError.EMTPY);
+  }
+
   const coordinates = geom?.coordinates;
 
   if (!coordinates?.length) {
@@ -173,6 +167,10 @@ export function validateFeature(feature: Feature): ValidationResult {
 }
 
 export function validateFeatures(features: Feature[]): ValidationResult {
+  if (!features?.length) {
+    return transformResponse(ValidationError.EMPTY_FEATURES);
+  }
+
   const invalidFeatures = features
     ?.map((feature, index) => {
       const valid = validateFeature(feature);
@@ -220,7 +218,7 @@ export function validateGeometryTypes(
     .map((item) => item.type)
     .filter((t) => !types.includes(t));
 
-  if (!invalidTypes?.length) {
+  if (invalidTypes?.length) {
     return transformResponse(ValidationError.INVALID_TYPE, {
       types: invalidTypes,
     });
