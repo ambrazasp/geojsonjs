@@ -480,8 +480,6 @@ ValidationError.INVALID_COORDINATES; // INVALID_COORDINATES
 ValidationError.INVALID_PROPERTIES; // INVALID_PROPERTIES
 ```
 
-Documentation can be found [here](/docs/readme.md)
-
 ## Contributing
 
 Contributions are welcome! If you find any issues or have suggestions for improvements, please open an issue or submit a
