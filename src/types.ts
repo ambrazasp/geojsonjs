@@ -33,6 +33,7 @@ export type Feature = {
 
 export const FEATURE_COLLECTION_TYPE = 'FeatureCollection';
 export const FEATURE_TYPE = 'Feature';
+export const GEOMETRY_COLLECTION = 'GeometryCollection';
 
 export const ValidationError = {
   EMTPY: 'EMTPY',

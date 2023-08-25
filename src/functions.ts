@@ -5,6 +5,7 @@ import {
   FEATURE_TYPE,
   Feature,
   FeatureCollection,
+  GEOMETRY_COLLECTION,
   GenericObject,
   Geometry,
   GeometryType,
@@ -13,13 +14,18 @@ import * as utils from './utils';
 
 type ParseData = {
   type: string;
-  coordinates: CoordinatesTypes;
+  coordinates?: CoordinatesTypes;
+  geometries?: Geometry[];
   properties?: GenericObject;
 };
 
 export function parse(data: ParseData[] | ParseData): FeatureCollection {
   if (Array.isArray(data)) {
     return getFeatureCollection(data.map((item) => parse(item)));
+  }
+
+  if (data.type === GEOMETRY_COLLECTION) {
+    return parse(data.geometries);
   }
 
   const feature: Feature = utils.toFeature(
