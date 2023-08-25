@@ -1,6 +1,6 @@
 {
   "name": "geojsonjs",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Build and validate GeoJSON",
   "main": "./src/index.js",
   "typings": "./src/index.d.ts",
