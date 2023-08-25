@@ -8,6 +8,7 @@ import {
   GEOMETRY_COLLECTION,
   GenericObject,
   Geometry,
+  GeometryCollection,
   GeometryType,
 } from './types';
 import * as utils from './utils';
@@ -45,6 +46,8 @@ export function getFeatures(geom: AllTypes): Feature[] {
     return geom
       .map((g) => getFeatures(g))
       .reduce((acc: Feature[], item: Feature[]) => [...acc, ...item], []);
+  } else if (geom.type === GEOMETRY_COLLECTION) {
+    return getFeatures((geom as GeometryCollection).geometries);
   } else if (geom.type === FEATURE_COLLECTION_TYPE) {
     return (geom as FeatureCollection).features;
   } else if (geom.type === FEATURE_TYPE) {

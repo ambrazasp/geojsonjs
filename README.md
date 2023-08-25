@@ -73,7 +73,9 @@ const result: ValidationResult = validate(featureCollection);
 
 ### parse
 
-Accepts array or object of `type`, `coordinates` and `properties` (optional)
+Accepts array or object of `type`, `coordinates` and `properties` (optional).
+
+Also you can parse `GeometryCollection` (object or array of objects). In that case instead of `coordinates` and `properties` it uses `geometries`.
 
 Returns [feature collection](#feature-collection)
 
@@ -82,21 +84,27 @@ Returns [feature collection](#feature-collection)
 ```js
 import { parse } from 'geojsonjs';
 
-const featureCollection = parse({ type: 'Point', coordinates: [11, 22] });
-const featureCollection2 = parse([
-  { type: 'Point', coordinates: [11, 22], properties: { prop1: 'prop1' } },
-]);
+const point1 = { type: 'Point', coordinates: [11, 22] };
+const point2 = {
+  type: 'Point',
+  coordinates: [11, 22],
+  properties: { prop1: 'prop1' },
+};
+const geometryCollection = {
+  type: 'GeometryCollection',
+  geometries: [{ type: 'Point', coordinates: [11, 22] }],
+};
+
+const featureCollection = parse(point1);
+const featureCollection2 = parse([point1, point2]);
+const featureCollection3 = parse(geometryCollection);
 
 // TypeScript
 import { parse, FeatureCollection } from 'geojsonjs';
 
-const featureCollection: FeatureCollection = parse({
-  type: 'Point',
-  coordinates: [11, 22],
-});
-const featureCollection2: FeatureCollection = parse([
-  { type: 'Point', coordinates: [11, 22], properties: { prop1: 'prop1' } },
-]);
+const featureCollection: FeatureCollection = parse(point1);
+const featureCollection2: FeatureCollection = parse([point1, point2]);
+const featureCollection3: FeatureCollection = parse(geometryCollection);
 ```
 
 ### getGeometries
@@ -336,6 +344,8 @@ const result: ValidationResult = validateGeometryTypes(
   - [Features (array)](#features-array)
   - [Geometry](#geometry)
   - [Geometries (array)](#geometries-array)
+  - [Geometry collection](#geometry-collection)
+  - [Geometry collections (array)](#geometry-collections-array)
 - [Geometry item types](#geometry-types)
   - Point
   - MultiPoint
@@ -447,6 +457,47 @@ const result: ValidationResult = validateGeometryTypes(
   {
     "type": "Point",
     "coordinates": [33, 44]
+  }
+]
+```
+
+### Geometry Collection
+
+```json
+{
+  "type": "GeometryCollection",
+  "geometries": [
+    { "type": "Point", "coordinates": [11, 22] },
+    {
+      "type": "LineString",
+      "coordinates": [
+        [11, 22],
+        [22, 33]
+      ]
+    }
+  ]
+}
+```
+
+### Geometry Collections (array)
+
+```json
+[
+  {
+    "type": "GeometryCollection",
+    "geometries": [{ "type": "Point", "coordinates": [11, 22] }]
+  },
+  {
+    "type": "GeometryCollection",
+    "geometries": [
+      {
+        "type": "LineString",
+        "coordinates": [
+          [11, 22],
+          [22, 33]
+        ]
+      }
+    ]
   }
 ]
 ```

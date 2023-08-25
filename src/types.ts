@@ -7,6 +7,10 @@ export type CoordinatesMultiLineString = CoordinatesLineString[];
 export type CoordinatesPolygon = CoordinatesLineString[];
 export type CoordinatesMultiPolygon = CoordinatesPolygon[];
 
+export const FEATURE_COLLECTION_TYPE = 'FeatureCollection';
+export const FEATURE_TYPE = 'Feature';
+export const GEOMETRY_COLLECTION = 'GeometryCollection';
+
 export type CoordinatesTypes =
   | CoordinatesPoint
   | CoordinatesLineString
@@ -20,6 +24,11 @@ export type Geometry = {
   coordinates: CoordinatesTypes;
 };
 
+export type GeometryCollection = {
+  type: 'GeometryCollection';
+  geometries: Geometry[];
+};
+
 export type FeatureCollection = {
   type: 'FeatureCollection';
   features: Feature[];
@@ -30,10 +39,6 @@ export type Feature = {
   geometry: Geometry;
   properties?: GenericObject;
 };
-
-export const FEATURE_COLLECTION_TYPE = 'FeatureCollection';
-export const FEATURE_TYPE = 'Feature';
-export const GEOMETRY_COLLECTION = 'GeometryCollection';
 
 export const ValidationError = {
   EMTPY: 'EMTPY',
@@ -61,7 +66,9 @@ export type AllTypes =
   | Feature
   | Feature[]
   | FeatureCollection
-  | FeatureCollection[];
+  | FeatureCollection[]
+  | GeometryCollection
+  | GeometryCollection[];
 
 export type ValidationResult = {
   valid: boolean;
