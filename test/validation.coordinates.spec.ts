@@ -188,28 +188,14 @@ describe('validations for coordinates', () => {
       [
         [11, 22],
         [22, 33],
-      ],
-      [
-        [33, 44],
-        [44, 55],
-      ],
-      [
         [11, 22],
-        [22, 33],
       ],
     ];
     const coordinatesInvalid = [
       [
         [11, 22],
         [22, 33],
-      ],
-      [
-        [33, 44],
         [44, 55],
-      ],
-      [
-        [55, 66],
-        [66, 77],
       ],
     ];
     it('validates valid coordinates', () => {
@@ -299,14 +285,7 @@ describe('validations for coordinates', () => {
         [
           [11, 22],
           [22, 33],
-        ],
-        [
-          [33, 44],
-          [44, 55],
-        ],
-        [
           [11, 22],
-          [22, 33],
         ],
       ],
     ];

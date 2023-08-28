@@ -27,6 +27,34 @@ function transformResponse(
   return { valid: true };
 }
 
+function validatePointsCount(
+  coordinates: any[],
+  count: number,
+  validateClosing: boolean = false
+): boolean {
+  if (!Array.isArray(coordinates)) return false;
+
+  const everyItemIsPoint = coordinates.every((item) => {
+    if (!Array.isArray(item)) return false;
+    return item.every((c: any) => isNumber(c));
+  });
+
+  if (everyItemIsPoint) {
+    const start = coordinates?.[0];
+    const end = coordinates?.[coordinates.length - 1];
+
+    if (validateClosing && !isEqual(start, end)) {
+      return false;
+    }
+
+    return coordinates.length >= count;
+  }
+
+  return coordinates.every((c) =>
+    validatePointsCount(c, count, validateClosing)
+  );
+}
+
 export function validate(geom: AllTypes) {
   const featureCollection: FeatureCollection = getFeatureCollection(geom);
   return validateFeatureCollection(featureCollection);
@@ -107,7 +135,7 @@ export function validateCoordinates(
     return validateCoordinatesByDepth(coordinates, 0);
   } else if (type === GeometryType.LINE_STRING) {
     // line should have at least 2 points
-    if (coordinates?.length < 2) {
+    if (!validatePointsCount(coordinates, 2)) {
       return transformResponse(ValidationError.INVALID_COORDINATES, {
         coordinates,
       });
@@ -115,14 +143,7 @@ export function validateCoordinates(
     return validateCoordinatesByDepth(coordinates, 1);
   } else if (type === GeometryType.POLYGON) {
     // polygon should have at least 3 points
-    if (coordinates?.length < 3) {
-      return transformResponse(ValidationError.INVALID_COORDINATES, {
-        coordinates,
-      });
-    }
-    const start = coordinates[0];
-    const end = coordinates[coordinates.length - 1];
-    if (!isEqual(start, end)) {
+    if (!validatePointsCount(coordinates, 3, true)) {
       return transformResponse(ValidationError.INVALID_COORDINATES, {
         coordinates,
       });
